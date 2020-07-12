@@ -52,18 +52,19 @@ class Academy:
             info_lst.append(False)
             csv_writer.writerow(info_lst)
 
-    def deposit(self, filename, amount, s_id,):
-        tempfile = NamedTemporaryFile(mode='w',delete=False)
+    def deposit(self, filename, amount, s_id, ):
+        tempfile = NamedTemporaryFile(mode='w', delete=False)
         fieldnames = ['id', 'name', 'address', 'course', 'diposited', 'due', 'Is_Graduated']
         with open(filename, 'r') as csvfile, tempfile:
-            reader = csv.DictReader(csvfile,fieldnames=fieldnames)
-            writer = csv.DictWriter(tempfile,fieldnames=fieldnames)
+            reader = csv.DictReader(csvfile, fieldnames=fieldnames)
+            writer = csv.DictWriter(tempfile, fieldnames=fieldnames)
             for row in reader:
                 if row['id'] == str(s_id):
                     row['diposited'] = int(row['diposited']) + amount
-                    row['due'] = int(row['due'])-amount
-                    writer.writerow({"id": row["id"], 'name': row['name'], 'address': row['address'], 'course': row['course'],
-                         'diposited':row["diposited"], 'due': int(row["diposited"]),
+                    row['due'] = int(row['due']) - amount
+                    writer.writerow(
+                        {"id": row["id"], 'name': row['name'], 'address': row['address'], 'course': row['course'],
+                         'diposited': row["diposited"], 'due': int(row["diposited"]),
                          'Is_Graduated': row['Is_Graduated']})
                 else:
                     writer.writerow({"id": row["id"], 'name': row['name'],
@@ -71,7 +72,6 @@ class Academy:
                                      'diposited': row['diposited'], 'due': row['due'],
                                      'Is_Graduated': row['Is_Graduated']})
             shutil.move(tempfile.name, filename)
-
 
     def update(self, filename, s_id, change_column, value):
         tempfile = NamedTemporaryFile(mode='w', delete=False)
@@ -85,9 +85,9 @@ class Academy:
                         if change_column == field:
                             row[field] = value
                     writer.writerow({"id": row["id"], 'name': row['name'],
-                                 'address': row['address'], 'course': row['course'],
-                                 'diposited': row['diposited'], 'due': row['due'],
-                                 'Is_Graduated': row['Is_Graduated']})
+                                     'address': row['address'], 'course': row['course'],
+                                     'diposited': row['diposited'], 'due': row['due'],
+                                     'Is_Graduated': row['Is_Graduated']})
 
                 else:
                     writer.writerow({"id": row["id"], 'name': row['name'],
@@ -119,7 +119,7 @@ class Academy:
         with open(filename, mode='r') as csv_file:
             csv_reader = csv.DictReader(csv_file)
             for row in csv_reader:
-                if bool(row["Is_Graduated"]) == True and int(row["due"]) == 0 and int(row['id']) == s_id:
+                if bool(row["Is_Graduated"]) is True and int(row["due"]) == 0 and int(row['id']) == s_id:
                     print("You have successfully graduated form {} course and your refund amount is Rs.20000".format(
                         row["course"]))
                     break
@@ -169,7 +169,6 @@ if __name__ == "__main__":
                        "7.Add student detail\n"
                        "8.Return fee to graduate student. \n"))
         operation = Academy()
-        result = 0
         if ch == 1:
             operation.view_course('Course_info.csv')
         elif ch == 2:
